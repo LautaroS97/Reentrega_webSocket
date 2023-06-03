@@ -33,8 +33,8 @@ app.use(express.json());
 
 app.engine(
   "handlebars",
-  exphbs({
-    defaultLayout: "main",
+  exphbs.engine({
+    defaultLayout: "main.handlebars",
     layoutsDir: path.join(__dirname, "views", "layouts")
   })
 );
@@ -43,11 +43,11 @@ app.set("view engine", "handlebars");
 app.use(express.static(path.join(__dirname, "public")));
 
 app.get("/", (req, res) => {
-  return res.render("index", { pageTitle: "Home", frase: "Index" });
+  return res.render("index.handlebars", { pageTitle: "Home", frase: "Index" });
 });
 
 app.use("/carts", cartRouter);
 app.use("/products", productRouter);
 app.get("/realTimeProducts", (req, res) => {
-  return res.render("realTimeProducts", { pageTitle: "RTProucts" });
+  return res.render("realTimeProducts.handlebars", { pageTitle: "RTProucts" });
 });
