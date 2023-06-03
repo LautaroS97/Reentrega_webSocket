@@ -1,0 +1,19 @@
+{{#if products}}
+<div class="productsContainer">
+    {{#each products}}
+    <div class="productCard">
+        <h3>{{title}}</h3>
+        <p>
+            {{description}}
+        </p>
+        <p>
+            $ {{price}}
+        </p>
+        <a href="/products/{{id}}"><button class="productDetailButton">Ver detalle</button></a>
+    </div>
+    {{/each}}
+</div>
+
+{{/if}}
+
+
