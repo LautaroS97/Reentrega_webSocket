@@ -1,9 +1,13 @@
 import express from "express";
 import exphbs from "express-handlebars";
 import { Server } from "socket.io";
+import path from "path";
 import cartRouter from "./routes/cart.router.js";
 import productRouter from "./routes/products.router.js";
 import FileManager from "./managers/fileManager.js";
+
+const __filename = new URL(import.meta.url).pathname;
+const __dirname = path.dirname(__filename);
 
 const app = express();
 const httpServer = app.listen(8080, () =>
@@ -29,14 +33,11 @@ app.use(express.json());
 
 app.engine(
   "handlebars",
-  exphbs({
-    defaultLayout: "main",
-    extname: ".handlebars",
-  })
+  exphbs.engine()
 );
-app.set("views", __dirname + "/views");
+app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "handlebars");
-app.use("/public", express.static(__dirname + "/public"));
+app.use(express.static(path.join(__dirname, "public")));
 
 app.get("/", (req, res) => {
   return res.render("index", { pageTitle: "Home", frase: "Index" });
@@ -46,9 +47,4 @@ app.use("/carts", cartRouter);
 app.use("/products", productRouter);
 app.get("/realTimeProducts", (req, res) => {
   return res.render("realTimeProducts", { pageTitle: "RTProucts" });
-});
-
-const PORT = process.env.PORT || 8080;
-httpServer.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
 });
